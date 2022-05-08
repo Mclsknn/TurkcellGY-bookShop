@@ -1,0 +1,21 @@
+﻿@model UpdateCategoryResponse
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form asp-action="Edit" method="post">
+<div class="card ml-4 mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <label>Kategori ismi</label>
+            <input type="text" name="Name" class="form-control" value="@Model.Name" />
+            <span asp-validation-for="Name"></span>
+
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-success mt-4" >Kaydet</button>
+        </div>
+    </div>
+</div>
+</form>

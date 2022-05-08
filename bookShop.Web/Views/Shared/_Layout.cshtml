@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - bookShop.Web</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+        <link rel="stylesheet" href="~/lib/alertify/css/alertify.min.css"/>
+    <link href="~/Eshopper/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Eshopper/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Eshopper/css/prettyPhoto.css" rel="stylesheet">
+    <link href="~/Eshopper/css/price-range.css" rel="stylesheet">
+    <link href="~/Eshopper/css/animate.css" rel="stylesheet">
+    <link href="~/Eshopper/css/main.css" rel="stylesheet">
+    <link href="~/Eshopper/css/responsive.css" rel="stylesheet">
+    <link rel="shortcut icon" href="~/Eshopper/images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/Eshopper/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/Eshopper/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/Eshopper/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="~/Eshopper/images/ico/apple-touch-icon-57-precomposed.png">
+
+</head>
+<body>
+    <header id="header">
+
+
+        <div class="header-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="logo pull-left">
+                            <a href="/Book/Index"><img src="~/Eshopper/images/home/logo.png" alt="" /></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="shop-menu pull-right">
+                            <ul class="nav navbar-nav">
+                                <li><a href=""><i class="fa fa-user"></i> Hesabım</a></li>
+                                <li><a href="/Cart/Index"><i class="fa fa-shopping-cart"></i> Sepet</a></li>
+                                <li class="nav-item">
+                                    @if (@User.Identity.IsAuthenticated)
+                                    {
+                                        <li><a href="/Users/Logout"><i class="fa fa-lock"></i> Hoşgeldin @User.Identity.Name (Çıkış Yap)</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a href="/Users/Login"><i class="fa fa-lock"></i> Giriş Yap</a></li>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <body>
+        @RenderBody()
+    </body>
+
+    <footer id="footer">
+        <div class="footer-widget">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="single-widget">
+                            <h2>Service</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="">Online Help</a></li>
+                                <li><a href="">Contact Us</a></li>
+                                <li><a href="">Order Status</a></li>
+                                <li><a href="">Change Location</a></li>
+                                <li><a href="">FAQ’s</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="single-widget">
+                            <h2>Quock Shop</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="">T-Shirt</a></li>
+                                <li><a href="">Mens</a></li>
+                                <li><a href="">Womens</a></li>
+                                <li><a href="">Gift Cards</a></li>
+                                <li><a href="">Shoes</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="single-widget">
+                            <h2>Policies</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="">Terms of Use</a></li>
+                                <li><a href="">Privecy Policy</a></li>
+                                <li><a href="">Refund Policy</a></li>
+                                <li><a href="">Billing System</a></li>
+                                <li><a href="">Ticket System</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="single-widget">
+                            <h2>About Shopper</h2>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="">Company Information</a></li>
+                                <li><a href="">Careers</a></li>
+                                <li><a href="">Store Location</a></li>
+                                <li><a href="">Affillate Program</a></li>
+                                <li><a href="">Copyright</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-sm-offset-1">
+                        <div class="single-widget">
+                            <h2>About Shopper</h2>
+                            <form action="#" class="searchform">
+                                <input type="text" placeholder="Your email address" />
+                                <button type="submit" class="btn btn-default"><i class="fa fa-arrow-circle-o-right"></i></button>
+                                <p>Get the most recent updates from <br />our site and be updated your self...</p>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                </div>
+            </div>
+        </div>
+
+    </footer><!--/Footer-->
+    
+    <script src="~/lib/alertify/alertify.min.js" ></script>
+    <script src="~/Eshopper/js/jquery.js"></script>
+    <script src="~/Eshopper/js/price-range.js"></script>
+    <script src="~/Eshopper/js/jquery.scrollUp.min.js"></script>
+    <script src="~/Eshopper/js/bootstrap.min.js"></script>
+    <script src="~/Eshopper/js/jquery.prettyPhoto.js"></script>
+    <script src="~/Eshopper/js/main.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

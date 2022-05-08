@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin</title>
+    <link rel="stylesheet" href="~/AdminTema/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/AdminTema/assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/AdminTema/assets/css/style.css">
+    <link rel="shortcut icon" href="~/AdminTema/assets/images/favicon.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+</head>
+<body>
+
+    <div class="container-scroller">
+
+        <partial name="_AdminNavbar" />
+
+
+        <div class="container-fluid page-body-wrapper">
+
+            <partial name="_AdminSidebar" />
+            <div class="main-panel">
+                @RenderBody()
+            </div>
+
+        </div>
+
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="~/AdminTema/assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="~/AdminTema/assets/vendors/chart.js/Chart.min.js"></script>
+    <script src="~/AdminTema/assets/js/off-canvas.js"></script>
+    <script src="~/AdminTema/assets/js/hoverable-collapse.js"></script>
+    <script src="~/AdminTema/assets/js/misc.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+    <script src="assets/js/todolist.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,119 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IPagedList<BookListResponse>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="header-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+            </div>
+            <div class="col-sm-4">
+                <div class="search_box pull-right">
+                    <input type="text" placeholder="Search" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="left-sidebar">
+                    <h2>Kategoriler</h2>
+                    @await Component.InvokeAsync("Category")
+                    <div class="brands_products">
+                        <h2>Yayın Evleri</h2>
+                        @await Component.InvokeAsync("Publisher")
+                    </div>
+
+                    <input type="button" class="col-md-5 btn btn-warning ml-4" style="width:100% ; height:45px" value="Filtrele" id="filtre" />
+
+
+
+                </div>
+
+            </div>
+
+
+            <div class="col-sm-9 padding-right">
+                <div class="features_items">
+                    <h2 class="title text-center">Kitaplar</h2>
+                    @foreach (var item in Model)
+                    {
+                        <partial name="_BookCard" model="item" />
+                    }
+                </div>
+
+                @*   <ul class="pagination">
+                    <li class="active"><a href="">1</a></li>
+                    <li><a href="">2</a></li>
+                    <li><a href="">3</a></li>
+                    <li><a href="">&raquo;</a></li>
+                    </ul>*@
+            </div>
+            @Html.PagedListPager((IPagedList)Model, page=> Url.Action("Index",new{page}))
+         
+        </div>
+    </div>
+</section>
+<br />
+<br />
+
+@section Scripts{
+
+<script>
+     var flags;
+     var flags2;
+   
+    $(".sepet").on('click',  function()
+     {
+
+        let id = $(this).data('id');
+        $.ajax({
+            url: '/Cart/Add/' + id,
+            type : 'GET',
+            dataType : 'json',
+            success: function(data){
+                console.log(data);  
+                if(data.success){
+                  alertify.success(data.text);
+                }
+                else if(data.success == false)
+                {
+                   location.href = data.text;
+                }
+            }
+        })
+     });
+
+       $("#filtre").click( function()
+     {
+         var langPref2 = [];
+         $.each($("input[name='filter2']:checked"), function() 
+         {
+           langPref2.push($(this).val());
+         });
+         var langPref = [];
+         $.each($("input[name='filter']:checked"), function() {
+           langPref.push($(this).val());
+         });         
+         var jsonvalues = JSON.stringify(langPref);
+         var jsonvalues2 = JSON.stringify(langPref2);
+         console.log(jsonvalues)
+         console.log(jsonvalues2);
+         $.post("@Url.Action("Index","Book")", { category : jsonvalues, publishers : jsonvalues2} );
+     });
+
+   
+
+   
+</script>
+
+ }
+
+ 
+  

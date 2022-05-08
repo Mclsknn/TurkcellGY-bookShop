@@ -1,0 +1,59 @@
+﻿@model UpdateBookResponse
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+    <div class="card mt-2">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Kitap İsmi</label>
+                    <input class="form-control" id="inputName" name="Name" />
+                    <label>Sayfa Sayısı</label>
+                    <input class="form-control" id="inputTotalPages" name="TotalPages" />
+                    <label>Yayın Evi</label>
+                    <select id="publisher" class="form-control" asp-for="PublisherId" asp-items="ViewBag.SelectedPublisher">
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>Fiyat</label>
+                    <input class="form-control" id="inputPrice" name="Price" />
+                    <label>Resim Yolu</label>
+                    <input class="form-control" id="inputImageUrl" name="ImageUrl" />
+                    <label>Yazar</label>
+                    <select class="form-control" id="writer" asp-for="WriterId" asp-items="ViewBag.SelectedWriter"></select>
+                </div>
+                <div class="col-md-3">
+                    <label>Açıklama</label>
+                    <input class="form-control" id="inputDescription" name="Description" />
+                    <label>Kitap En</label>
+                    <input class="form-control" id="inputWidth" name="Width" />
+                    <label>Kitap Boy</label>
+                    <input class="form-control" id="inputHeight" name="Heigth" />
+
+                </div>
+                <div class="col-md-3">
+
+                    <label>Kapak Türü</label>
+                    <input class="form-control" id="inputCoverType" name="CoverType" />
+                    <label>Kitap Dili</label>
+                    <input class="form-control" id="inputLanguage" name="Language" />
+                    <label>Kategori</label>
+
+                    <ul class="list-group " style=" overflow:scroll; max-height:100px;">
+                        @foreach (var item in Model.Categories)
+                        {
+                            <li class="list-group-item" style="height:500px"><label><input type="checkbox" class="form-check-input me-1" name="filter" value="@item.Id"> <span style="color:grey;" name="">@item.Name</span> </label></li>
+
+                        }
+                    </ul>
+
+                    <br />
+                    <button id="btnEkle" class="btn btn-success mt-1" type="submit">Kaydet</button>
+                </div>
+
+            </div>
+        </div>
+    </div>

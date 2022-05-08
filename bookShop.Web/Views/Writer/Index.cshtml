@@ -1,0 +1,74 @@
+﻿@model IEnumerable<WriterListResponse>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row ml-2">
+    <a type="button" class="  btn btn-success !important" href="/Writer/Create" >Yazar Ekle</a>
+</div><br />
+
+<div class="row ml-2 mt-2">
+    <div class="col-md-6">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>-</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FullName</td>
+                        <td>@item.Age</td>
+                        <td class="col-md-1"><a class="btn btn-warning" href="/Writer/Edit/@item.Id">Düzenle</a> <a class="btn btn-danger sil" data-id="">Sil</a>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+
+@section Scripts{
+
+<script>
+
+         $(".sil").click(function(){
+         let id = $(this).data('id');
+         Swal.fire({
+         title: 'Silmek istediğinize emin misiniz?',
+         text: "Verileriniz kaybolabilir!",
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Evet!',
+         cancelButtonText:'Vazgeç'
+         }).then((result) => {
+         if (result.isConfirmed) {
+         $.ajax({
+         url:"/Category/Delete/" + id,
+         method : "GET",
+         success:function(data){
+         if(data){
+         Swal.fire({
+              title :'İşlem Başarılı!',
+               text : 'Veri silindi',
+               type : 'success',
+                 }).then(function(){
+                location.reload();
+                 });
+               }  
+             }
+           })
+          }
+         })
+        })
+
+</script>
+}

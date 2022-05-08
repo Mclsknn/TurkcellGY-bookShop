@@ -1,0 +1,21 @@
+﻿@model Publisher
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<form asp-action="Create" method="post">
+    <div class="card ml-4 mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <label>Yayın Evi ismi</label>
+            <input type="text" name="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-success mt-4">Kaydet</button>
+        </div>
+    </div>
+</div> 
+</form>

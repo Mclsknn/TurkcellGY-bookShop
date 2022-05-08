@@ -1,0 +1,22 @@
+﻿@model Writer
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form asp-action="Create" method="post">
+    <div class="card ml-4 mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <label class="control-label"></label>
+                <label>Yazar ismi</label>
+                <input type="text" name="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-success mt-4">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</form>
+

@@ -1,0 +1,27 @@
+﻿@model UpdateWriterResponse
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form asp-action="Edit" method="post">
+    <div class="card ml-4 mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <label asp-for="FullName" class="control-label">Yazar İsmi</label>
+                <input type="text" class="form-control" name="FullName" value="@Model.FullName" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="col-md-3">
+                <label asp-for="FullName" class="control-label">Yazar Yaşı</label>
+                <input type="text" class="form-control" name="Age" value="@Model.Age" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-success mt-4" type="submit">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+

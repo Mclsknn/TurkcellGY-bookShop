@@ -1,0 +1,15 @@
+﻿@model BookListResponse
+
+<div class="col-sm-4">
+    <div class="product-image-wrapper">
+        <div class="single-products">
+            <div class="productinfo text-center">
+                <img src="@Model.ImageUrl" alt="" /><br />
+                <p>@Model.Name </p>
+                <h2>@Model.Price ₺</h2>
+                <a  class="btn btn-default add-to-cart"><i class="fa fa-info"></i>Detaylar</a>
+                <a  class=" sepet btn btn-default add-to-cart " data-id="@Model.Id"><i class="fa fa-shopping-cart"></i>Sepete Ekle</a>
+            </div>
+        </div>
+    </div>
+</div>

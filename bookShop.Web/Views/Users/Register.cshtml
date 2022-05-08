@@ -1,0 +1,92 @@
+﻿@model AddUserRequest
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-8">
+    
+        <section id="form">
+            <!--form-->
+            <form asp-action="Register" asp-controller="Users" method="post">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 style="color:orange">Yeni Kayıt</h2>
+                        <div class="row">
+                            <div class=col-md-6>
+                            <input class="form-control"  type="text" id="name" name="FullName" placeholder="Ad Soyad" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                            <br />
+                             <input class="form-control"  type="password" name="Password" id="pass" placeholder="Şifre" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                            <input class="form-control"  type="text" id="name" name="UserName" placeholder="Kullanıcı Adı" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                            <br />
+                            <input class="form-control"  type="password"  id="passConfirm" placeholder="Şifre Tekrarı" />
+                            <span id="passCon" class="text-danger" style="display:none"></span>
+                            </div>
+
+                        </div>
+                            <br />
+                            
+                            <input class="form-control mt-1 mb-1"  type="text" id="name" name="PhoneNumber" placeholder="Telefon Numarası (0 ile)" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            <br />
+                            <input class="form-control "  type="email" id="mail" name="UserMail" placeholder="Email Address" />
+                            <span asp-validation-for="UserMail" class="text-danger"></span>
+                            <br />
+                          
+                            <button type="submit" id="kaydet" class="btn btn-warning">Kayıt Ol</button>
+                   
+                    </div><!--/sign up form-->
+                </div>
+            </div>
+            </form>
+        </section>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+@section Scripts{
+<script>
+        $(document).ready(function(){
+            $("#kaydet2").click(function(){
+              
+                var user = {
+                    UserName :  $("#name").val(),
+                    UserMail :  $("#mail").val(),
+                    Password :  $("#pass").val()
+                }
+            $.ajax({
+            url: "/Users/Register",
+            data: {user} ,
+            method:"POST",
+            success : function(data){
+                location.href = "/Users/Login";
+            }
+            
+            })
+            
+            
+            })     
+            $("#passConfirm").change(function (){
+                $("#passCon"). css("display", "none");
+               $(":submit").attr("disabled", true);
+               var sifre = $("#pass").val();
+               if(sifre == $(this).val()){
+                 $(":submit").removeAttr("disabled");
+               }else{
+               $("#passCon").text("Şifre tekrarı şifre ile uyuşmuyor");
+               $("#passCon").css("display", "block");
+               }
+            })
+
+        
+        })
+</script>
+
+}
