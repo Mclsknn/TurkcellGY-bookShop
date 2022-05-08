@@ -78,11 +78,6 @@ namespace bookShop.Business.Concrete
             return await _writerRepository.SearchEntitiesByNameAsync(name);
         }
 
-        public Task<IList<Writer>> SearchEntitiesByNameAsync(IList<string> name)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<bool> SoftDeleteAsync(int id)
         {
             return await _writerRepository.SoftDeleteAsync(id);

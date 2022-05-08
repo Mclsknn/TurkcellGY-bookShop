@@ -64,10 +64,15 @@ namespace bookShop.Business.Concrete
             return await _bookRepository.DeleteAsync(id);
         }
 
-        public async Task<IList<BookListResponse>> GetAllEntitiesAsync()
+        public async Task<IList<Book>> GetAllEntitiesAsync()
         {
-            var book = await _bookRepository.GetAllEntitiesAsync();
-            var books = _mapper.Map<IList<BookListResponse>>(book);
+            var books = await _bookRepository.GetAllEntitiesAsync();
+            return books;
+        }
+        public async Task<IList<BookListResponse>> GetAllEntitiesAsyncDto()
+        {
+            var entities = await _bookRepository.GetAllEntitiesAsync();
+            var books = _mapper.Map<IList<BookListResponse>>(entities);
             return books;
         }
 
@@ -82,6 +87,11 @@ namespace bookShop.Business.Concrete
             return entity;
         }
 
+        public async Task<Book> GetEntityByIdAsyncWithoutInclude(int id)
+        {
+            return await _bookRepository.GetEntityByIdAsyncWithoutInclude(id);
+        }
+
         public async Task<bool> IsExistsAsync(int id)
         {
            return await _bookRepository.IsExistsAsync(id);
@@ -92,16 +102,9 @@ namespace bookShop.Business.Concrete
            return await _bookRepository.SearchEntitiesByNameAsync(name);
         }
 
-        public async Task<IList<Book>> SearchEntitiesByNameAsync(IList<string> name)
-        {
-           return await _bookRepository.SearchEntitiesByNameAsync(name);
-        }
-
         public IList<BookListResponse> SearchEntitiesByNameAsync(IList<string> name, IList<string> publisher)
         {
-
             string s;
-
             List<int> categories = new List<int>();
             List<int> publishers = new List<int>();
             foreach (var item in name)
@@ -127,25 +130,16 @@ namespace bookShop.Business.Concrete
             return await _bookRepository.SoftDeleteAsync(id);
         }
 
-        public bool Update(Book entity)
+        public bool Update(Book book)
         {
-            return _bookRepository.Update(entity);
+            return _bookRepository.Update(book);
         }
 
         public bool UpdateDto(UpdateBookResponse entity)
         {
             var book = _mapper.Map<Book>(entity);
-            return _bookRepository.Update(book);
-        }
-
-        Task<IList<Book>> IGenericService<Book>.GetAllEntitiesAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<IList<BookListResponse>> IBookService.SearchEntitiesByNameAsync(IList<string> name)
-        {
-            throw new NotImplementedException();
+            bool success = _bookRepository.Update(book);
+            return success;
         }
     }
 }

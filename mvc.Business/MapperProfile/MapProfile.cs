@@ -28,9 +28,12 @@ namespace bookShop.Business.MapperProfile
 
             CreateMap<AddUserRequest, User>();
             CreateMap<Book, UpdateBookResponse>();
+            CreateMap<UpdateBookResponse, Book>();
             CreateMap<Publisher,UpdatePublisherResponse>();
             CreateMap<Category, UpdateCategoryResponse>();
             CreateMap<Writer, UpdateWriterResponse>();
+
+            CreateMap<User, UserListResponse>();
         }
     }
 }

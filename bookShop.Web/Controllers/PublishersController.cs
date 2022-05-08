@@ -1,22 +1,24 @@
 ﻿using bookShop.Business.Abstract;
 using bookShop.Dtos.Requests;
 using bookShop.Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace bookShop.Web.Controllers
 {
-    public class WriterController : Controller
+    [Authorize(Roles = "Admin,Editör")]
+    public class PublishersController : Controller
     {
-        private readonly IWriterService _writerService;
-        public WriterController(IWriterService writerService)
+        private readonly IPublisherService _publisherService;
+        public PublishersController(IPublisherService publisherService)
         {
-            _writerService = writerService;
+            _publisherService = publisherService;
         }
         public async Task<IActionResult> Index()
         {
-            var writers = await _writerService.GetAllEntitiesAsyncDto();
-            return View(writers);
+            var publisher = await _publisherService.GetAllEntitiesAsyncDto();
+            return View(publisher);
         }
 
         [HttpGet]
@@ -26,39 +28,37 @@ namespace bookShop.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(AddWriterRequest writer)
+        public async Task<IActionResult> Create(AddPublisherRequest publisher)
         {
-
             if (ModelState.IsValid)
             {
-                var success = await _writerService.AddAsync(writer);
+                var success = await _publisherService.AddAsync(publisher);
                 if (success)
                 {
                     return RedirectToAction(nameof(Index));
                 }
                 return BadRequest();
             }
-
             return View();
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            if (await _writerService.IsExistsAsync(id))
+            if (await _publisherService.IsExistsAsync(id))
             {
-                var book = await _writerService.GetEntityByIdAsyncDto(id);
+                var book = await _publisherService.GetEntityByIdAsyncDto(id);
                 return View(book);
             }
             return NotFound();
         }
 
         [HttpPost]
-        public IActionResult Edit(Writer writer)
+        public IActionResult Edit(Publisher publisher)
         {
             if (ModelState.IsValid)
             {
-                var success = _writerService.Update(writer);
+                var success = _publisherService.Update(publisher);
                 if (success)
                 {
                     return RedirectToAction(nameof(Index));
@@ -70,13 +70,12 @@ namespace bookShop.Web.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            if (await _writerService.IsExistsAsync(id))
+            if (await _publisherService.IsExistsAsync(id))
             {
-                await _writerService.SoftDeleteAsync(id);
-                return RedirectToAction("Index", "Products");
+                await _publisherService.SoftDeleteAsync(id);
+                return Json(true);
             }
-
-            return NotFound();
+            return Json(false);
         }
 
     }

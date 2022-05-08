@@ -20,11 +20,9 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
         {
             _context = context;
         }
-
-
-        public async Task<bool> AddAsync(Writer entity)
+        public async Task<bool> AddAsync(Writer writer)
         {
-            entityEntry = await _context.Writers.AddAsync(entity);
+            entityEntry = await _context.Writers.AddAsync(writer);
             success = entityEntry.State == EntityState.Added;
             _context.SaveChanges();
             return success;
@@ -41,7 +39,7 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
 
         public async Task<IList<Writer>> GetAllEntitiesAsync()
         {
-            var writers = await _context.Writers.ToListAsync();
+            var writers = await _context.Writers.Where(x=> x.IsDeleted == false).ToListAsync();
             return writers;
         }
 
@@ -62,22 +60,18 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
             return writers;
         }
 
-        public Task<IList<Writer>> SearchEntitiesByNameAsync(IList<string> name)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<bool> SoftDeleteAsync(int id)
         {
             var writer = await _context.Writers.FindAsync(id);
             writer.IsDeleted = true;
             entityEntry = _context.Writers.Update(writer);
+            await _context.SaveChangesAsync();
             return entityEntry.State == EntityState.Modified;
         }
 
-        public bool Update(Writer entity)
+        public bool Update(Writer writer)
         {
-            entityEntry = _context.Writers.Update(entity);
+            entityEntry = _context.Writers.Update(writer);
             success = entityEntry.State == EntityState.Modified;
             _context.SaveChanges();
             return success;

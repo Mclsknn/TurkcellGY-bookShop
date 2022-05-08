@@ -56,6 +56,11 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
             return book;
         }
 
+        public async Task<Book> GetEntityByIdAsyncWithoutInclude(int id)
+        {
+            return await _context.Books.FindAsync(id);
+        }
+
         public async Task<bool> IsExistsAsync(int id)
         {
             return await _context.Books.AnyAsync(p => p.Id == id);
@@ -63,7 +68,7 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
 
         public IList<Book> SearchEntitiesByNameAsync(IList<int> category, IList<int> publisher)
         {
-            List<Book> books = new List<Book>();//publisherdan gelen
+            List<Book> books = new List<Book>();
             List<Book> books3 = new List<Book>();
             List<Category> categories = new List<Category>();
             var c = _context.Categories.ToList();
@@ -97,14 +102,10 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
             return books3;
         }
 
-        public Task<IList<Book>> SearchEntitiesByNameAsync(string name)
+        public async Task<IList<Book>> SearchEntitiesByNameAsync(string name)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<Book>> SearchEntitiesByNameAsync(IList<string> name)
-        {
-            throw new NotImplementedException();
+            var books = await _context.Books.Where(p => p.Name.Contains(name)).ToListAsync();
+            return books;
         }
 
         public async Task<bool> SoftDeleteAsync(int id)

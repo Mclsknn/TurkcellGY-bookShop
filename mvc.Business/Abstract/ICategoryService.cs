@@ -13,7 +13,7 @@ namespace bookShop.Business.Abstract
     {
         IList<Category> GetAllEntities();
         Task<IList<CategoryListResponse>> GetAllEntitiesAsyncDto();
-        Task<bool> AddAsync(AddCategoryRequest entity);
+        Task<bool> AddAsyncDto(AddCategoryRequest entity);
         bool UpdateDto(UpdateCategoryResponse entity);
         Task<UpdateCategoryResponse> GetEntityByIdAsyncDto(int id);
     }

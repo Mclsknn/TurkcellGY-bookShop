@@ -30,7 +30,7 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
 
         public async Task<bool> DeleteAsync(int id)
         {
-            Category category = await _context.Categories.FindAsync(id);
+            var category = await _context.Categories.FindAsync(id);
             entityEntry = _context.Categories.Remove(category);
             success = entityEntry.State == EntityState.Deleted;
             _context.SaveChanges();
@@ -65,11 +65,6 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
             return categories;
         }
 
-        public Task<IList<Category>> SearchEntitiesByNameAsync(IList<string> name)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<bool> SoftDeleteAsync(int id)
         {
             var category = await _context.Categories.FindAsync(id);
@@ -80,9 +75,9 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
             return success;
         }
 
-        public bool Update(Category entity)
+        public bool Update(Category category)
         {
-            entityEntry = _context.Categories.Update(entity);
+            entityEntry = _context.Categories.Update(category);
             success = entityEntry.State == EntityState.Modified;
             _context.SaveChanges();
             return success;

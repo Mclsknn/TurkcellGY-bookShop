@@ -2,6 +2,7 @@
 using bookShop.Business.Abstract;
 using bookShop.DataAccess.Abstract;
 using bookShop.Dtos.Requests;
+using bookShop.Dtos.Responses;
 using bookShop.Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace bookShop.Business.Concrete
             return success;
         }
 
-        public async Task<bool> AddAsync(AddUserRequest addUser)
+        public async Task<bool> AddAsyncDto(AddUserRequest addUser)
         {
             if (addUser.Role == null)
             {
@@ -42,24 +43,32 @@ namespace bookShop.Business.Concrete
             return success;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _userRepository.DeleteAsync(id);
+        } 
+
+
+        public async Task<IList<User>> GetAllEntitiesAsync()
+        {
+           return await _userRepository.GetAllEntitiesAsync();
         }
 
-        public Task<IList<User>> GetAllEntitiesAsync()
+        public async Task<IEnumerable<UserListResponse>> GetAllEntitiesAsyncDto()
         {
-            throw new NotImplementedException();
+            var entity = await _userRepository.GetAllEntitiesAsync();
+            var users = _mapper.Map<IEnumerable<UserListResponse>>(entity);
+            return users;
         }
 
-        public Task<User> GetEntityByIdAsync(int id)
+        public async Task<User> GetEntityByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _userRepository.GetEntityByIdAsync(id);
         }
 
-        public Task<bool> IsExistsAsync(int id)
+        public async Task<bool> IsExistsAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _userRepository.IsExistsAsync(id);
         }
 
         public Task<IList<User>> SearchEntitiesByNameAsync(string name)
@@ -67,23 +76,23 @@ namespace bookShop.Business.Concrete
             throw new NotImplementedException();
         }
 
-        public Task<bool> SoftDeleteAsync(int id)
+        public async Task<bool> SoftDeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _userRepository.SoftDeleteAsync(id);
         }
 
-        public bool Update(User entity)
+        public bool Update(User user)
         {
-            throw new NotImplementedException();
+           return _userRepository.Update(user);
         }
 
-        public async Task<User> ValidateUser(string userName, string password)
+        public async Task<User> ValidateUser(string username, string password)
         {
             var users = await _userRepository.GetAllEntitiesAsync();
             User user2 = null;
             foreach (var item in users)
             {
-                if (item.UserName == userName)
+                if (item.UserName == username || item.UserMail == username)
                 {
                     string pass = BCrypt.Net.BCrypt.HashPassword(item.Password);
                     bool success = BCrypt.Net.BCrypt.Verify(item.Password, pass);
@@ -91,10 +100,8 @@ namespace bookShop.Business.Concrete
                         user2 = item;
                         return user2;
                     }
-                    
                 }
             }
-            
             return null;
         }
     }

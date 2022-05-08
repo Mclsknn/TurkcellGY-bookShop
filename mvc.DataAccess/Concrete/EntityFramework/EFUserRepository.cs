@@ -23,6 +23,7 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
         {
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(entity.Password);
             entity.Password = passwordHash;
+            entity.CreatedDate = DateTime.Now;
             entityEntry = await _context.Users.AddAsync(entity);
             _context.SaveChanges();
             return entityEntry.State == EntityState.Added;
@@ -30,8 +31,8 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
 
         public async Task<bool> DeleteAsync(int id)
         {
-            User category = await _context.Users.FindAsync(id);
-            EntityEntry<User> entityEntry = _context.Users.Remove(category);
+            User user = await _context.Users.FindAsync(id);
+            EntityEntry<User> entityEntry = _context.Users.Remove(user);
             return entityEntry.State == EntityState.Deleted;
         }
 
@@ -42,7 +43,7 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
 
         public async Task<IList<User>> GetAllEntitiesAsync()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _context.Users.Where(x=> x.IsDeleted==false).ToListAsync();
             return users;
         }
 
@@ -63,22 +64,21 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
             return users;
         }
 
-        public Task<IList<User>> SearchEntitiesByNameAsync(IList<string> name)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<bool> SoftDeleteAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
             user.IsDeleted = true;
+            user.ModifiedDate = DateTime.Now;
             entityEntry = _context.Users.Update(user);
+            await _context.SaveChangesAsync();
             return entityEntry.State == EntityState.Modified;
         }
 
-        public bool Update(User entity)
+        public bool Update(User user)
         {
-            entityEntry = _context.Users.Update(entity);
+            entityEntry = _context.Users.Update(user);
+            user.ModifiedDate = DateTime.Now;
+            _context.SaveChanges();
             return entityEntry.State == EntityState.Modified;
         }
     }

@@ -10,5 +10,7 @@ namespace bookShop.DataAccess.Abstract
     public interface IBookRepository : IGenericRepository<Book>
     {
         IList<Book> SearchEntitiesByNameAsync(IList<int> name, IList<int> publisher);
+        Task<Book> GetEntityByIdAsyncWithoutInclude(int id);
+
     }
 }

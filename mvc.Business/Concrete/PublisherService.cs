@@ -49,9 +49,9 @@ namespace bookShop.Business.Concrete
 
         public async Task<IList<PublisherListResponse>> GetAllEntitiesAsyncDto()
         {
-            var publishers = await _publisherRepository.GetAllEntitiesAsync();
-            var ret = _mapper.Map<IList<PublisherListResponse>>(publishers);
-            return ret;
+            var entities = await _publisherRepository.GetAllEntitiesAsync();
+            var publishers = _mapper.Map<IList<PublisherListResponse>>(entities);
+            return publishers;
         }
 
         public async Task<Publisher> GetEntityByIdAsync(int id)
@@ -81,9 +81,9 @@ namespace bookShop.Business.Concrete
             return await _publisherRepository.SoftDeleteAsync(id);
         }
 
-        public bool Update(Publisher entity)
+        public bool Update(Publisher publisher)
         {
-            return _publisherRepository.Update(entity);
+            return _publisherRepository.Update(publisher);
         }
 
         public bool UpdateDto(UpdatePublisherResponse entity)

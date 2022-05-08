@@ -26,7 +26,7 @@ namespace bookShop.Business.Concrete
             return await _categoryRepository.AddAsync(entity);
         }
 
-        public async Task<bool> AddAsync(AddCategoryRequest entity)
+        public async Task<bool> AddAsyncDto(AddCategoryRequest entity)
         {
             var category = _mapper.Map<Category>(entity);
             return await _categoryRepository.AddAsync(category);

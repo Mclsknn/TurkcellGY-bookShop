@@ -1,4 +1,5 @@
 ﻿using bookShop.Dtos.Requests;
+using bookShop.Dtos.Responses;
 using bookShop.Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace bookShop.Business.Abstract
     public interface IUserService : IGenericService<User>
     {
         Task<User> ValidateUser(string userName, string password);
-        Task<bool> AddAsync(AddUserRequest addUser);
+        Task<bool> AddAsyncDto(AddUserRequest addUser);
+        Task<IEnumerable<UserListResponse>> GetAllEntitiesAsyncDto();
     }
 }

@@ -1,0 +1,75 @@
+﻿@model Book
+@{
+    ViewData["Title"] = "detailBook";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section id="form">
+
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="blog-post-area">
+                <div class="single-blog-post">
+
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <img src="@Model.ImageUrl" style="height:400px; width:auto">
+                        </div>
+                        <div class="col-md-4">
+                            <p class="ml-5">
+                                @Model.Description
+                            </p>
+                            <br />
+                            <div class="post-meta">
+                                <ul>
+                                    <li><i class="fa fa-user"></i> Yazar : @Model.Writer.FullName</li>
+                                    <li><i class="fa fa-clock-o"></i> Sayfa : @Model.TotalPages</li>
+                                    <li><i class="fa fa-calendar"></i> @Convert.ToDateTime(@Model.DateofPublish).ToString("dd-MM-yyyy")</li>
+                                </ul>
+
+                            </div>
+                            <div>
+                                <h2 class="text-warning">Fiyat : @Model.Price ₺</h2>
+                                <br />
+                                <a class=" sepet btn btn-default add-to-cart " data-id="@Model.Id"><i class="fa fa-shopping-cart"></i>Sepete Ekle</a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+@section Scripts{
+    <script>
+        $(".sepet").on('click',  function()
+     {
+         
+        let id = $(this).data('id');
+        console.log(id);
+        $.ajax({
+            url: '/Cart/Add/' + id,
+            type : 'GET',
+            dataType : 'json',
+            success: function(data){
+                console.log(data);
+                if(data.success){
+                  alertify.success(data.text);
+                }
+                else if(data.success == false)
+                {
+                   location.href = data.text;
+                }
+            }
+        })
+     });
+
+     </script>
+}

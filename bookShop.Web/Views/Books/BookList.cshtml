@@ -5,11 +5,11 @@
 }
 
 <div class="row ml-2">
-    <a type="button" class="  btn btn-success !important" href="/Category/Create" >Kitap Ekle</a>
+    <a type="button" class="  btn btn-success !important" href="/Books/Create" >Kitap Ekle</a>
 </div><br />
 
 
-<table class="table table-bordered paginated" style=" display: block; overflow-x: auto; white-space: nowrap;">
+<table class="table table-bordered paginated" style=" display: block; overflow-x: auto; white-space: nowrap; height: 600px; overflow-y: auto; ">
     <thead>
         <tr>
             <th>Name</th>
@@ -35,7 +35,7 @@
                 <td>@item.Name</td>
                 <td>@item.TotalPages</td>
                 <td>@item.Price</td>
-                <td>@item.DateofPublish</td>
+                <td>@Convert.ToDateTime(item.DateofPublish).ToString("dd-MM-yyyy")</td>
                 <td><img src="@item.ImageUrl"></td>
                 <td>@item.Description</td>
                 <td>@item.Language</td>
@@ -51,7 +51,7 @@
                 <td>@item.Writer.FullName</td>
                 <td>@item.Publisher.Name</td>
                 <td>
-                    <a class="btn btn-warning" href="/Book/Edit/@item.Id">Düzenle</a> <a class="btn btn-danger sil" data-id="@item.Id">Sil</a>
+                    <a class="btn btn-warning" href="/Books/Edit/@item.Id">Düzenle</a> <a class="btn btn-danger sil" data-id="@item.Id">Sil</a>
                 </td>
             </tr>
         }
@@ -76,7 +76,7 @@
           }).then((result) => {
           if (result.isConfirmed) {
           $.ajax({
-          url:"/Book/Delete/" + id,
+          url:"/Books/Delete/" + id,
           method : "GET",
           success:function(data){
                  Swal.fire({

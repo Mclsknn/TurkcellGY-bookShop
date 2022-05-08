@@ -1,6 +1,5 @@
-﻿@using X.PagedList
-@using X.PagedList.Mvc.Core
-@model IPagedList<BookListResponse>
+﻿
+@model IEnumerable<BookListResponse>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -30,6 +29,7 @@
                         @await Component.InvokeAsync("Publisher")
                     </div>
 
+
                     <input type="button" class="col-md-5 btn btn-warning ml-4" style="width:100% ; height:45px" value="Filtrele" id="filtre" />
 
 
@@ -48,15 +48,20 @@
                     }
                 </div>
 
-                @*   <ul class="pagination">
-                    <li class="active"><a href="">1</a></li>
-                    <li><a href="">2</a></li>
-                    <li><a href="">3</a></li>
-                    <li><a href="">&raquo;</a></li>
-                    </ul>*@
+
+                <div class="text-center">
+                    <ul class="pagination">
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i==ViewBag.CurrentPage ? "active":"")">
+                                <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-catId="@ViewBag.Category">@i</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
-            @Html.PagedListPager((IPagedList)Model, page=> Url.Action("Index",new{page}))
-         
+
+
         </div>
     </div>
 </section>
@@ -68,7 +73,7 @@
 <script>
      var flags;
      var flags2;
-   
+
     $(".sepet").on('click',  function()
      {
 
@@ -78,7 +83,7 @@
             type : 'GET',
             dataType : 'json',
             success: function(data){
-                console.log(data);  
+                console.log(data);
                 if(data.success){
                   alertify.success(data.text);
                 }
@@ -92,15 +97,16 @@
 
        $("#filtre").click( function()
      {
+         console.log("asdasd");
          var langPref2 = [];
-         $.each($("input[name='filter2']:checked"), function() 
+         $.each($("input[name='filter2']:checked"), function()
          {
            langPref2.push($(this).val());
          });
          var langPref = [];
          $.each($("input[name='filter']:checked"), function() {
            langPref.push($(this).val());
-         });         
+         });
          var jsonvalues = JSON.stringify(langPref);
          var jsonvalues2 = JSON.stringify(langPref2);
          console.log(jsonvalues)
@@ -108,12 +114,11 @@
          $.post("@Url.Action("Index","Book")", { category : jsonvalues, publishers : jsonvalues2} );
      });
 
-   
 
-   
+
+
 </script>
 
  }
 
- 
-  
+

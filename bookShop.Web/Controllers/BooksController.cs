@@ -14,14 +14,15 @@ using X.PagedList;
 
 namespace bookShop.Web.Controllers
 {
-    public class BookController : Controller
+  
+    public class BooksController : Controller
     {
         private readonly IBookService _bookService;
         private readonly ICategoryService _categoryService;
         private readonly IWriterService _writerService;
         private readonly IPublisherService _publisherService;
        
-        public BookController(IBookService bookService, ICategoryService categoryService, IWriterService writerService, IPublisherService publisherService)
+        public BooksController(IBookService bookService, ICategoryService categoryService, IWriterService writerService, IPublisherService publisherService)
         {
             _bookService = bookService;
             _categoryService = categoryService;
@@ -30,58 +31,55 @@ namespace bookShop.Web.Controllers
         }
         [AllowAnonymous]
         public async Task<IActionResult> Index(string[] category, string[] publishers , int page = 1)
-        
         {
-
             IList<BookListResponse> books;
 
             if (category.Length != 0 || publishers.Length != 0)
             {
                 books = _bookService.SearchEntitiesByNameAsync(category, publishers);
             }
-            else 
+            else
             {
-                books = await _bookService.GetAllEntitiesAsync();
+                books = await _bookService.GetAllEntitiesAsyncDto();
             }
-             var paginatedBooks = books.ToPagedList(page, 3);
 
-            //var booksPerPage = 3;
-            //var paginatedBooks = books.OrderByDescending(p => p.Id)
-            //                                .Skip((page - 1) * booksPerPage)
-            //                                .Take(booksPerPage);
-            //ViewBag.CurrentPage = page;
-            //ViewBag.TotalPages = Math.Ceiling((decimal)books.Count / booksPerPage);
+            var booksPerPage = 3;
+            var paginatedBooks = books.OrderByDescending(p => p.Id)
+                                            .Skip((page - 1) * booksPerPage)
+                                            .Take(booksPerPage);
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = Math.Ceiling((decimal)books.Count / booksPerPage);
+
 
             return View(paginatedBooks);
 
         }
+        [Authorize(Roles = "Admin,Editör")]
         public async Task<IActionResult> BookList()
         {
-            var books = await _bookService.GetAllEntitiesAsync();
+            var books = await _bookService.GetAllEntitiesAsyncDto();
             return View(books);
         }
-        public async Task<IActionResult> DetailBook(int id = 11)
+        [AllowAnonymous]
+        public async Task<IActionResult> DetailBook(int id)
         {
             var book = await _bookService.GetEntityByIdAsync(id);
             return View(book);
         }
         [HttpGet]
+        [Authorize(Roles ="Admin,Editör")]
         public async Task<IActionResult> Create()
         {
-            var user = new AddBookRequest();
-            var categories = _categoryService.GetAllEntities();
-            user.Categories = categories;
             ViewBag.SelectedCategory = await GetCategoriesForDropDown();
             ViewBag.SelectedWriter = await GetWritersForDropDown();
             ViewBag.SelectedPublisher = await GetPublishersForDropDown();
-            return View(user);
+            return View();
         }
 
         [HttpPost]
-        //public async Task<IActionResult> Create([Bind("Name", "Price", "Discount", "Description", "CategoryId", "ImageUrl")] AddProductRequest request)
+        [Authorize(Roles = "Admin,Editör")]
         public async Task<IActionResult> Create(AddBookRequest book, string categories)
         {
-
                 var success = await _bookService.CreateBook(book,categories);
                 if (success)
                 {
@@ -92,8 +90,10 @@ namespace bookShop.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Editör")]
         public async Task<IActionResult> Edit(int id)
         {
+            ViewBag.SelectedCategory = await GetCategoriesForDropDown();
             ViewBag.SelectedWriter = await GetWritersForDropDown();
             ViewBag.SelectedPublisher = await GetPublishersForDropDown();
             if (await _bookService.IsExistsAsync(id))
@@ -105,6 +105,7 @@ namespace bookShop.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Editör")]
         public async Task<IActionResult> Edit(UpdateBookResponse book)
         {
             if (ModelState.IsValid)
@@ -112,14 +113,15 @@ namespace bookShop.Web.Controllers
                 var success = _bookService.UpdateDto(book);
                 if (success)
                 {
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(BookList));
                 }
                 return BadRequest();
             }
             ViewBag.Categories = await GetCategoriesForDropDown();
             return View();
         }
-
+        [HttpGet]
+        [Authorize(Roles = "Admin,Editör")]
         public async Task<IActionResult> Delete(int id)
         {
             if (await _bookService.IsExistsAsync(id))

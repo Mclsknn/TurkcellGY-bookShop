@@ -1,0 +1,211 @@
+﻿@model AddBookRequest
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="card mt-2">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <label>Kitap İsmi</label>
+                <input class="form-control" id="inputName" name="Name" />
+                <span id="spanName" class="text-danger" style="display:none">Geçersiz isim girişi !</span>
+                <label>Sayfa Sayısı</label>
+                <input class="form-control" id="inputTotalPages" name="TotalPages" />
+                <span id="spanTotalPages" class="text-danger" style="display:none">Geçersiz isim girişi !</span>
+                <label>Yayın Evi</label>
+                <select id="publisher" class="form-control" asp-for="PublisherId" asp-items="ViewBag.SelectedPublisher">
+                </select>
+                <label>Yayın Tarihi</label>
+                <input id="date" class="form-control" type="date" />
+            </div>
+            <div class="col-md-3">
+                <label>Fiyat</label>
+                <input class="form-control" id="inputPrice" name="Price" />
+                <span id="spanPrice" class="text-danger" style="display:none">Geçersiz isim girişi !</span>
+                <label>Resim Yolu</label>
+                <input class="form-control" id="inputImageUrl" name="ImageUrl" />
+                <span id="spanImageUrl" class="text-danger" style="display:none">Geçersiz isim girişi !</span>
+                <label>Yazar</label>
+                <select class="form-control" id="writer" asp-for="WriterId" asp-items="ViewBag.SelectedWriter"></select>
+            </div>
+            <div class="col-md-3">
+                <label>Açıklama</label>
+                <input class="form-control" id="inputDescription" name="Description" />
+                <span id="spanDescription" class="text-danger" style="display:none">Geçersiz isim girişi !</span>
+                <label>Kitap En</label>
+                <input class="form-control" id="inputWidth" name="Width" />
+                <span id="spanWidth" class="text-danger" style="display:none">Geçersiz isim girişi !</span>
+                <label>Kitap Boy</label>
+                <input class="form-control" id="inputHeight" name="Heigth" />
+                <span id="spanHeight" class="text-danger" style="display:none">Geçersiz isim girişi !</span>
+
+            </div>
+            <div class="col-md-3">
+
+                <label>Kapak Türü</label>
+                <input class="form-control" id="inputCoverType" name="CoverType" />
+                <span id="spanCoverType" class="text-danger" style="display:none">Geçersiz isim girişi !</span>
+                <label>Kitap Dili</label>
+                <input class="form-control" id="inputLanguage" name="Language" />
+                <span id="spanLanguage" class="text-danger" style="display:none">Geçersiz isim girişi !</span>
+                <label>Kategori</label>
+
+                <ul class="list-group " style=" overflow:scroll; max-height:100px;">
+                    @foreach (var item in ViewBag.SelectedCategory)
+                    {
+                            <li class="list-group-item" style="height:500px"><label><input type="checkbox" class="form-check-input me-1" name="filter" value="@item.Value"> <span style="color:grey;" name="">@item.Text</span> </label></li>
+
+                    }
+                </ul>
+
+                <br />
+                <button id="btnEkle" class="btn btn-success mt-1" type="submit">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+<script>
+
+    var success = false;
+
+    $("#btnEkle").click(function(){
+    //if($("#inputName").val()=="" && $("#inputName").val().length<2)
+    //{
+    //     success=false;
+    //     document.getElementById("spanName").style.display = "block";
+    //}
+    //else
+    //{
+    //     success=true;
+    //     document.getElementById("spanName").style.display = "none";
+    //}
+    //if($("#inputTotalPages").val()==""){
+    //     success=false;
+    //     document.getElementById("spanTotalPages").style.display = "block";
+    //}
+    //else
+    //{
+    //    success=true;
+    //    document.getElementById("spanTotalPages").style.display = "none";
+    //}
+    //if($("#inputPrice").val()=="" || $("#inputPrice").val().length){
+    //     success=false;
+    //     document.getElementById("spanPrice").style.display = "block";
+    //}
+    //else
+    //{
+    //    success=true;
+    //    document.getElementById("spanPrice").style.display = "none";
+    //}
+    //if($("#inputImageUrl").val()=="" || $("#inputImageUrl").val().length){
+    //    success=false;
+    //    document.getElementById("spanImageUrl").style.display = "block";
+    //}
+    //else
+    //{
+    //    success=true;
+    //    document.getElementById("spanImageUrl").style.display = "none";
+    //}
+    //if($("#inputDescription").val()=="" || $("#inputDescription").val().length){
+    //    success=false;
+    //    document.getElementById("spanDescription").style.display = "block";
+    //}
+    //else
+    //{
+    //    success=true;
+    //    document.getElementById("spanDescription").style.display = "none";
+    //}
+    //if($("#inputWidth").val()=="" || $("#inputWidth").val().length){
+    //     success=false;
+    //     document.getElementById("spanWidth").style.display = "block";
+    //}
+    //else
+    //{
+    //    success=true;
+    //    document.getElementById("spanWidth").style.display = "none";
+    //}
+    //if($("#inputHeight").val()=="" || $("#inputHeight").val().length){
+    //     success=false;
+    //     document.getElementById("spanHeight").style.display = "block";
+    //}
+    //else
+    //{
+    //    success=true;
+    //    document.getElementById("spanHeight").style.display = "none";
+    //}
+    //if($("#inputCoverType").val()=="" || $("#inputCoverType").val().length){
+    //     success=false;
+    //     document.getElementById("spanCoverType").style.display = "block";
+    //}
+    //else
+    //{
+    //    success=true;
+    //    document.getElementById("spanCoverType").style.display = "none";
+    //}
+    //if($("#inputLanguage").val()=="" ){
+    //    success=false;
+    //    document.getElementById("spanLanguage").style.display = "block";
+    //}
+    //else
+    //{
+    //    success=true;
+    //    document.getElementById("spanLanguage").style.display = "none";
+    //}
+
+
+    
+         var langPref = [];
+         var item = document.getElementById("publisher");
+         var publisherid = item.value;
+         var item2 = document.getElementById("writer");
+         var writer = item2.value;
+         var book2 = {
+            Name : $("#inputName").val(),
+            TotalPages : $("#inputTotalPages").val(),
+            Price : $("#inputPrice").val(),
+            ImageUrl : $("#inputImageUrl").val(),
+            Description : $("#inputDescription").val(),
+            Width : $("#inputWidth").val(),
+            Heigth : $("#inputHeight").val(),
+            CoverType : $("#inputCoverType").val(),
+            Language : $("#inputLanguage").val(),
+            PublisherId : publisherid,
+            WriterId : writer,
+            DateofPublish:$("#date").val()
+         };
+         $.each($("input[name='filter']:checked"), function() {
+         langPref.push($(this).val());
+         });
+        var categories2 = JSON.stringify(langPref);
+        var bookr = JSON.stringify(book2);
+
+                            $.ajax({
+
+                                url:'/Books/Create/',
+                                data: { book : book2, categories:categories2 },
+                                type:'post',
+                                dataType: 'json',
+                                success: function(data)
+                                {
+                                   if(data){
+                                   location.href = "/Books/BookList";
+                                   }
+
+                                }
+
+                                });
+    
+
+
+
+    })
+
+</script>
+}
+

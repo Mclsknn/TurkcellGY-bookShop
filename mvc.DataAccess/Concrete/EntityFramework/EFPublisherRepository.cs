@@ -65,12 +65,6 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
             var publishers = await _context.Publishers.Where(p => p.Name.Contains(name)).ToListAsync();
             return publishers;
         }
-
-        public Task<IList<Publisher>> SearchEntitiesByNameAsync(IList<string> name)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<bool> SoftDeleteAsync(int id)
         {
             var publisher = await _context.Publishers.FindAsync(id);
@@ -81,9 +75,9 @@ namespace bookShop.DataAccess.Concrete.EntityFramework
             return success;
         }
 
-        public bool Update(Publisher entity)
+        public bool Update(Publisher publisher)
         {
-            entityEntry = _context.Publishers.Update(entity);
+            entityEntry = _context.Publishers.Update(publisher);
             success = entityEntry.State == EntityState.Modified;
             _context.SaveChanges();
             return success;

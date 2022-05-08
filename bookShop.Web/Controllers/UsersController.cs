@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace bookShop.Web.Controllers
 {
-    [AllowAnonymous]
+   
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
@@ -21,7 +21,13 @@ namespace bookShop.Web.Controllers
         {
             _userService = userService;
         }
-
+        [HttpGet]
+        [Authorize(Roles ="Admin,Editör")]
+        public async Task<IActionResult> Index() 
+        {
+            var users = await _userService.GetAllEntitiesAsyncDto();
+            return View(users);
+        }
         [HttpGet]
         public IActionResult Register()
         {
@@ -32,10 +38,7 @@ namespace bookShop.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                    bool success = await _userService.AddAsync(user);
-                
-
+                bool success = await _userService.AddAsyncDto(user);
                 return RedirectToAction(nameof(Login));
             }
 
@@ -53,7 +56,7 @@ namespace bookShop.Web.Controllers
             if (ModelState.IsValid)
             {
 
-                bool success = await _userService.AddAsync(user);
+                bool success = await _userService.AddAsyncDto(user);
 
 
                 return RedirectToAction(nameof(PanelLogin));
@@ -61,11 +64,14 @@ namespace bookShop.Web.Controllers
 
             return View();
         }
+       
         public IActionResult PanelLogin()
         {
             return View();
         }
         [HttpGet]
+     
+      
         public IActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -93,10 +99,35 @@ namespace bookShop.Web.Controllers
                         return Redirect(returnUrl);
                     }
                 }
-                ModelState.AddModelError("login", "kullanıcı adı veya şifre hatalı");
+                else {
+                    ModelState.AddModelError("login", "kullanıcı adı veya şifre hatalı");
+                }
+         
 
             }
+            return RedirectToAction("Index","Books");
+        }
+        [HttpGet]
+        public IActionResult AccessDenied(string returnUrl) 
+        {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return Redirect("/Books/Index");
+        }
+      
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (await _userService.IsExistsAsync(id))
+            {
+                await _userService.SoftDeleteAsync(id);
+                return Json(true);
+            }
+
+            return Json(false);
         }
 
         [HttpPost]
@@ -118,10 +149,6 @@ namespace bookShop.Web.Controllers
             return View();
 
         }
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync();
-            return Redirect("/");
-        }
+       
     }
 }

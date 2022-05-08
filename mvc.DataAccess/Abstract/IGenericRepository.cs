@@ -16,7 +16,6 @@ namespace bookShop.DataAccess.Abstract
         Task<bool> DeleteAsync(int id);
         Task<bool> SoftDeleteAsync(int id);
         Task<IList<T>> SearchEntitiesByNameAsync(string name);
-        Task<IList<T>> SearchEntitiesByNameAsync(IList<string> name);
         Task<bool> IsExistsAsync(int id);
     }
 }

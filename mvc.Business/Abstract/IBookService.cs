@@ -11,13 +11,13 @@ namespace bookShop.Business.Abstract
 {
     public interface IBookService : IGenericService<Book>
     {
-        Task<IList<BookListResponse>> SearchEntitiesByNameAsync(IList<string> name);
+   
         IList<BookListResponse> SearchEntitiesByNameAsync(IList<string> name, IList<string> publisher);
-        Task<IList<BookListResponse>> GetAllEntitiesAsync();
-
+        Task<IList<BookListResponse>> GetAllEntitiesAsyncDto();
         Task<UpdateBookResponse> GetEntityByIdAsyncDto(int id);
          Task<bool> AddAsync(AddBookRequest entity);
         bool UpdateDto(UpdateBookResponse entity);
         Task<bool> CreateBook(AddBookRequest book, string categories);
+        Task<Book> GetEntityByIdAsyncWithoutInclude(int id);
     }
 }

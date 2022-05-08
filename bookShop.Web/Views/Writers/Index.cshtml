@@ -5,12 +5,12 @@
 }
 
 <div class="row ml-2">
-    <a type="button" class="  btn btn-success !important" href="/Writer/Create" >Yazar Ekle</a>
+    <a type="button" class="  btn btn-success !important" href="/Writers/Create" >Yazar Ekle</a>
 </div><br />
 
 <div class="row ml-2 mt-2">
     <div class="col-md-6">
-        <table class="table table-bordered">
+        <table class="table table-bordered" style="display : block; height: 600px; overflow-y: scroll; overflow-x:auto">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -24,7 +24,7 @@
                     <tr>
                         <td>@item.FullName</td>
                         <td>@item.Age</td>
-                        <td class="col-md-1"><a class="btn btn-warning" href="/Writer/Edit/@item.Id">Düzenle</a> <a class="btn btn-danger sil" data-id="">Sil</a>
+                        <td class="col-md-1"><a class="btn btn-warning" href="/Writers/Edit/@item.Id">Düzenle</a> <a class="btn btn-danger sil" data-id="@item.Id">Sil</a>
                     </tr>
                 }
             </tbody>
@@ -52,7 +52,7 @@
          }).then((result) => {
          if (result.isConfirmed) {
          $.ajax({
-         url:"/Category/Delete/" + id,
+         url:"/Writers/Delete/" + id,
          method : "GET",
          success:function(data){
          if(data){
